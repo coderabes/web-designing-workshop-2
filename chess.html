@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Chess </title>
+
+    <style>
+        body{
+            font-family: Arial;
+            background: #222;
+            color: rgb(178, 33, 33);
+            text-align: center;
+            margin: 0;
+        }
+
+        h1{
+            background: rgb(214, 183, 183);
+            color: rgb(23, 22, 15);
+            padding: 15px;
+            margin: 0;
+        }
+
+        .board{
+            width: 400px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            border: 4px solid rgb(175, 153, 25);
+        }
+
+        .square{
+            width: 50px;
+            height: 50px;
+        }
+
+        .white{ background: #c4ae8b; }
+        .black{ background: #b58863; }
+
+        button{
+            padding: 10px 20px;
+            margin: 8px;
+            border: none;
+            border-radius: 5px;
+            background: #444;
+            color: rgb(54, 17, 17);
+            cursor: pointer;
+        }
+
+        button:hover{
+            background: gold;
+            color: rgb(175, 104, 104);
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>♟ Simple Chess Game</h1>
+
+<div class="board" id="board"></div>
+
+<div>
+    <button onclick="alert('Play vs Computer')">Play vs Computer</button>
+    <button onclick="alert('Two Players')">Two Players</button>
+    <button onclick="alert('Tutorial')">Tutorial</button>
+</div>
+
+<script>
+    let board = document.getElementById("board");
+
+    for(let row = 0; row < 8; row++){
+        for(let col = 0; col < 8; col++){
+            let square = document.createElement("div");
+            square.classList.add("square");
+
+            if((row + col) % 2 == 0)
+                square.classList.add("white");
+            else
+                square.classList.add("black");
+
+            board.appendChild(square);
+        }
+    }
+</script>
+
+</body>
+</html>
