@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding: 20px; background: #f4f4f9; }
+        .container { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #218838; }
+        #marksInputs { margin-top: 15px; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 4px; display: none; }
+        .pass { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .fail { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Marks Calculator</h2>
+    <label>Number of Subjects:</label>
+    <input type="number" id="numSubjects" min="1" placeholder="Enter number of subjects">
+    <button onclick="generateInputs()">Set Subjects</button>
+
+    <div id="marksInputs"></div>
+    <div id="calcBtnArea"></div>
+
+    <div id="result" class="result"></div>
+</div>
+
+<script>
+    function generateInputs() {
+        const num = document.getElementById('numSubjects').value;
+        const container = document.getElementById('marksInputs');
+        const btnArea = document.getElementById('calcBtnArea');
+        
+        container.innerHTML = '<h3>Enter Marks:</h3>';
+        for (let i = 1; i <= num; i++) {
+            container.innerHTML += `<input type="number" class="mark-input" placeholder="Subject ${i} marks" min="0" max="100">`;
+        }
+        btnArea.innerHTML = '<button onclick="calculate()">Calculate Result</button>';
+    }
+
+    function calculate() {
+        const inputs = document.querySelectorAll('.mark-input');
+        let total = 0;
+        let count = inputs.length;
+        let hasFailed = false;
+
+        inputs.forEach(input => {
+            let val = parseFloat(input.value) || 0;
+            if (val < 33) hasFailed = true; // Passing mark threshold
+            total += val;
+        });
+
+        let avg = total / count;
+        let grade = "";
+
+        if (avg >= 90) grade = "A+";
+        else if (avg >= 80) grade = "A";
+        else if (avg >= 70) grade = "B";
+        else if (avg >= 60) grade = "C";
+        else if (avg >= 50) grade = "D";
+        else grade = "F";
+
+        const resultDiv = document.getElementById('result');
+        const isPass = !hasFailed && avg >= 33;
+
+        resultDiv.style.display = "block";
+        resultDiv.className = `result ${isPass ? 'pass' : 'fail'}`;
+        resultDiv.innerHTML = `
+            <strong>Total:</strong> ${total} <br>
+            <strong>Average:</strong> ${avg.toFixed(2)}% <br>
+            <strong>Grade:</strong> ${grade} <br>
+            <strong>Status:</strong> ${isPass ? "PASSED" : "FAILED"}
+        `;
+    }
+</script>
+
+</body>
+</html>
